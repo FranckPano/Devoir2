@@ -3,31 +3,43 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-
-    <ImageButton
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:src="@drawable/write"
-    android:onClick="startWriteNote"/>
-    <ImageButton
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/draw"
+        android:text="Ecrire une note"
+        android:drawableLeft="@drawable/write"
+        android:onClick="startWriteNote"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dessiner un croquis"
+        android:drawableLeft="@drawable/draw"
         android:onClick="startDrawNote"/>
-    <ImageButton
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/speak"
+        android:text="Enregistrer une note"
+        android:drawableLeft="@drawable/speak"
         android:onClick="startSpeakNote"/>
-    <ImageButton
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/photo"
-        android:onClick="startPhotoNote"/>
-    <ImageButton
+        android:text="Prendre une photo"
+        android:drawableLeft="@drawable/photo"
+        android:onClick="startPhotoNote" />
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/video"
+        android:text="Prendre une video"
+        android:drawableLeft="@drawable/video"
         android:onClick="startVideoNote"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Afficher les notes"
+        android:drawableLeft="@drawable/file"
+        android:onClick="startViewNote"/>
 
 </LinearLayout>
