@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+    <ImageButton
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/write"
+    android:onClick="startWriteNote"/>
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/draw"
+        android:onClick="startDrawNote"/>
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/speak"
+        android:onClick="startSpeakNote"/>
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/photo"
+        android:onClick="startPhotoNote"/>
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/video"
+        android:onClick="startVideoNote"/>
+
+</LinearLayout>

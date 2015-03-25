@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Devoir2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--  Initial screen -->
+    <string name="write_label">Write</string>
+    <string name="draw_label">Draw</string>
+    <string name="speak_label">Speak</string>
+    <string name="photo_label">Photo</string>
+    <string name="video_label">Video</string>
+
+    <string name="record_button">Record</string>
+
+    <!-- Outils Draw -->
+    <string name="start_new">New</string>
+    <string name="brush">Brush</string>
+    <string name="erase">Erase</string>
+    <string name="save">Save</string>
+    <string name="paint">Paint</string>
+
+    <!-- Tailles des outils Draw -->
+    <string name="sml">Small</string>
+    <string name="med">Medium</string>
+    <string name="lar">Large</string>
+
+</resources>
