@@ -102,7 +102,7 @@ public class DataDAO {
                     data = cursorToDataText(cursor);
                     break;
                 case MySQLiteHelper.TABLE_PHOTOS:
-                    data = cursorToDataText(cursor);
+                    data = cursorToDataPicture(cursor);
                     break;
                 case MySQLiteHelper.TABLE_VIDEOS:
                     data = cursorToDataText(cursor);
