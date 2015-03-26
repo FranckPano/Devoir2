@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
 
     public void startSpeakNote(View clickedButton) {goToActivity(SpeakActivity.class);}
 
-    public void startPhotoNote(View clickedButton) {goToClass(PhotoActivity.class); }
+    public void startPhotoNote(View clickedButton) {goToActivity(PhotographieActivity.class); }
 
     public void startVideoNote(View clickedButton) {goToActivity(VideoActivity.class); }
 
