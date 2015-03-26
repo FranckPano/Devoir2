@@ -26,4 +26,6 @@
     <string name="med">Medium</string>
     <string name="lar">Large</string>
 
+    <string name="hello">Hello</string>
+
 </resources>

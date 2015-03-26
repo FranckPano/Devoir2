@@ -49,9 +49,7 @@ public class MainActivity extends Activity {
         startActivity(newActivity);
     }
 
-    public void startWriteNote(View clickedButton) {
-        goToActivity(WriteActivity.class);
-    }
+    public void startWriteNote(View clickedButton) {goToActivity(WriteActivity.class);}
 
     public void startDrawNote(View clickedButton) { goToActivity(DrawActivity.class);}
 
@@ -61,5 +59,5 @@ public class MainActivity extends Activity {
 
     public void startVideoNote(View clickedButton) {goToActivity(VideoActivity.class); }
 
-    public void startViewNote(View clickedButton){goToActivity(MainActivity.class);}
+    public void startViewNote(View clickedButton){goToActivity(ViewActivity.class);}
 }

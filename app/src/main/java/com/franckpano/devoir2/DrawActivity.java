@@ -58,7 +58,7 @@ public class DrawActivity extends Activity implements OnClickListener{
         mediumBrush = getResources().getInteger(R.integer.medium_size);
 
         //Initialisation du pinceaux a la taille medium
-        drawView.setBrushSize(mediumBrush);
+        drawView.setBrushSize(smallBrush);
 
         //Bouton dessiner
         drawBtn = (ImageButton)findViewById(R.id.draw_btn);
@@ -68,7 +68,7 @@ public class DrawActivity extends Activity implements OnClickListener{
         eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
 
-        //Bouton Nouvelle toile
+        //Bouton Nouveau croquis
         newBtn = (ImageButton)findViewById(R.id.new_btn);
         newBtn.setOnClickListener(this);
 

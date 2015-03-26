@@ -24,14 +24,16 @@
         android:layout_height="fill_parent"
         android:orientation="horizontal" >
 
-        <Button android:id="@+id/btn"
+        <Button android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sauvegarder" />
-        <Button android:id="@+id/btn3"
+            android:text="Sauvegarder"
+            android:onClick="onClick"/>
+        <Button android:id="@+id/btnNew"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vider" />
+            android:text="Vider"
+            android:onClick="onClick"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/texts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notes Textes"
+        android:onClick="onClick"/>
+
+    <Button
+        android:id="@+id/croquis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Croquis"
+        android:onClick="onClick"/>
+    <Button
+        android:id="@+id/voix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notes Vocales"
+        android:onClick="onClick"/>
+    <Button
+        android:id="@+id/photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notes Photos"
+        android:onClick="onClick"/>
+    <Button
+        android:id="@+id/videos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notes Vidéos"
+        android:onClick="onClick"/>
+
+</LinearLayout>
