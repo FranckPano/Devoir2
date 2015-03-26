@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.View;
 
 
@@ -43,6 +44,10 @@ public class MainActivity extends Activity {
         Intent newActivity = new Intent(this, activityClass);
         startActivity(newActivity);
     }
+    private void goToClass(Class<? extends SurfaceView> activityClass) {
+        Intent newActivity = new Intent(this, activityClass);
+        startActivity(newActivity);
+    }
 
     public void startWriteNote(View clickedButton) {
         goToActivity(WriteActivity.class);
@@ -52,9 +57,9 @@ public class MainActivity extends Activity {
 
     public void startSpeakNote(View clickedButton) {goToActivity(SpeakActivity.class);}
 
-    public void startPhotoNote(View clickedButton) {goToActivity(PhotoActivity.class); }
+    public void startPhotoNote(View clickedButton) {goToClass(PhotoActivity.class); }
 
     public void startVideoNote(View clickedButton) {goToActivity(VideoActivity.class); }
 
-   public void startViewNote(View clickedButton){goToActivity(MainActivity.class);}
+    public void startViewNote(View clickedButton){goToActivity(MainActivity.class);}
 }
