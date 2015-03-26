@@ -18,7 +18,7 @@ public class DataDAO {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_CONTENT };
+            MySQLiteHelper.COLUMN_CONTENT, MySQLiteHelper.COLUMN_NAME };
 /*
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_TEXT };
@@ -45,8 +45,9 @@ public class DataDAO {
         dbHelper.close();
     }
 
-    public Data createData(String data, String nameTable) {
+    public Data createData(String data, String name , String nameTable) {
         ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_NAME, name);
         values.put(MySQLiteHelper.COLUMN_CONTENT, data);
         long insertId = database.insert(nameTable, null,
                 values);
@@ -54,7 +55,22 @@ public class DataDAO {
                 allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
-        Data newComment = cursorToData(cursor);
+        Data newComment = cursorToDataText(cursor);
+        cursor.close();
+        return newComment;
+    }
+
+    public Data createCroquisData(byte[] data, String name, String nameTable) {
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COLUMN_NAME, name);
+        values.put(MySQLiteHelper.COLUMN_CONTENT, data);
+        long insertId = database.insert(nameTable, null,
+                values);
+        Cursor cursor = database.query(nameTable,
+                allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
+        cursor.moveToFirst();
+        Data newComment = cursorToDataPicture(cursor);
         cursor.close();
         return newComment;
     }
@@ -67,26 +83,52 @@ public class DataDAO {
     }
 
     public List<Data> getAllContents(String nameTable) {
-        List<Data> comments = new ArrayList<Data>();
+        List<Data> contents = new ArrayList<Data>();
 
         Cursor cursor = database.query(nameTable,
                 allColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Data data = cursorToData(cursor);
-            comments.add(data);
+            Data data = null;
+            switch(nameTable){
+                case MySQLiteHelper.TABLE_TEXTS:
+                    data = cursorToDataText(cursor);
+                    break;
+                case MySQLiteHelper.TABLE_CROQUIS:
+                    data = cursorToDataPicture(cursor);
+                    break;
+                case MySQLiteHelper.TABLE_VOIX:
+                    data = cursorToDataText(cursor);
+                    break;
+                case MySQLiteHelper.TABLE_PHOTOS:
+                    data = cursorToDataText(cursor);
+                    break;
+                case MySQLiteHelper.TABLE_VIDEOS:
+                    data = cursorToDataText(cursor);
+                    break;
+            }
+            contents.add(data);
             cursor.moveToNext();
         }
         // make sure to close the cursor
         cursor.close();
-        return comments;
+        return contents;
     }
 
-    private Data cursorToData(Cursor cursor) {
-        Data data = new Data();
+    private DataText cursorToDataText(Cursor cursor) {
+        DataText data = new DataText();
         data.setId(cursor.getLong(0));
         data.setData(cursor.getString(1));
+        data.setName(cursor.getString(2));
+        return data;
+    }
+
+    private DataPicture cursorToDataPicture(Cursor cursor) {
+        DataPicture data = new DataPicture();
+        data.setId(cursor.getLong(0));
+        data.setData(cursor.getBlob(1));
+        data.setName(cursor.getString(2));
         return data;
     }
 }

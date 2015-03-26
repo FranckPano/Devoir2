@@ -2,8 +2,9 @@ package com.franckpano.devoir2;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.EditText;
 import android.widget.Toast;
-
 
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,6 +15,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.View.OnClickListener;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.io.ByteArrayOutputStream;
 
 
 
@@ -36,6 +40,9 @@ import android.provider.MediaStore.Images;
  * Created by Franck on 23/03/2015.
  */
 public class DrawActivity extends Activity implements OnClickListener{
+
+    private DataDAO datasource;
+    byte[] img;
 
     private DrawingView drawView;
 
@@ -75,6 +82,11 @@ public class DrawActivity extends Activity implements OnClickListener{
         //Bouton enregistrer
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        //Création et ouverture de la base de données, via la DAO
+        datasource = new DataDAO(this);
+        datasource.open();
+
     }
 
     public void paintClicked(View view){
@@ -128,12 +140,30 @@ public class DrawActivity extends Activity implements OnClickListener{
 
         //Bouton enregistrer
         else if(view.getId()==R.id.save_btn){
-            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save drawing");
-            saveDialog.setMessage("Save drawing to device Gallery?");
-            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
+            LayoutInflater factory = LayoutInflater.from(this);
+            final View alertDialogView = factory.inflate(R.layout.save_layout, null);
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setView(alertDialogView);
+            adb.setTitle("Sauvegarde de la note");
+            adb.setIcon(android.R.drawable.ic_dialog_alert);
+            adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+
+                    final EditText et = (EditText)alertDialogView.findViewById(R.id.EditText1);
                     drawView.setDrawingCacheEnabled(true);
+                    Bitmap b = drawView.getDrawingCache();//BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+                    ByteArrayOutputStream bos=new ByteArrayOutputStream();
+                    b.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                    byte[] img = bos.toByteArray();
+
+                    Data data = datasource.createCroquisData(img, et.getText().toString() ,MySQLiteHelper.TABLE_CROQUIS);
+                    Toast savedText = Toast.makeText(getApplicationContext(),
+                            "Draw Note Saved!", Toast.LENGTH_SHORT);
+                    savedText.show();
+
+                    drawView.destroyDrawingCache();
+                    /*drawView.setDrawingCacheEnabled(true);
 
                     String imgSaved = insertImage(
                             getContentResolver(), drawView.getDrawingCache(),
@@ -149,20 +179,17 @@ public class DrawActivity extends Activity implements OnClickListener{
                                 "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
                         unsavedToast.show();
                     }
-                    drawView.destroyDrawingCache();
+                    drawView.destroyDrawingCache();*/
+                } });
+
+            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
                 }
             });
-            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
-                }
-            });
-            saveDialog.show();
+            adb.show();
         }
     }
-
-
-
 
     public static final String insertImage(ContentResolver cr,
                                            Bitmap source,
