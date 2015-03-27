@@ -29,19 +29,19 @@ public class ViewActivity extends Activity {
 
         switch (view.getId()) {
             case R.id.texts:
-                goToDataView("texts");
+                goToDataView(MySQLiteHelper.TABLE_TEXTS);
                 break;
             case R.id.croquis:
-                goToDataView("croquis");
+                goToDataView(MySQLiteHelper.TABLE_CROQUIS);
                 break;
             case R.id.voix:
-                goToDataView("voix");
+                goToDataView(MySQLiteHelper.TABLE_VOIX);
                 break;
             case R.id.photos:
-                goToDataView("photos");
+                goToDataView(MySQLiteHelper.TABLE_PHOTOS);
                 break;
             case R.id.videos:
-                goToDataView("videos");
+                goToDataView(MySQLiteHelper.TABLE_VIDEOS);
                 break;
         }
     }
@@ -53,4 +53,5 @@ public class ViewActivity extends Activity {
     }
 
 }
+
 

@@ -75,7 +75,7 @@ public class DataDAO {
         return newComment;
     }
 
-    public void deleteComment(Data comment, String nameTable) {
+    public void deleteElement(Data comment, String nameTable) {
         long id = comment.getId();
         System.out.println("Comment deleted with id: " + id);
         database.delete(nameTable, MySQLiteHelper.COLUMN_ID
