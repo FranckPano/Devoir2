@@ -1,14 +1,21 @@
 package com.franckpano.devoir2;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,43 +27,56 @@ public class DataViewActivity  extends ListActivity {
 
     private DataDAO datasource;
 
+    private final int ID_OUVRIR = 0, ID_SUPPR = 1;
+    private final int GROUP_DEFAULT = 0;
+
+    private Data dataSelected;
+    private String mode;
+
+    ArrayAdapter<Data> adapter;
+    List<Data> values;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_view_layout);
 
         final Intent intent = getIntent();
-        String mode = intent.getStringExtra(ViewActivity.EXTRA_MESSAGE);
+        mode = intent.getStringExtra(ViewActivity.EXTRA_MESSAGE);
 
         datasource = new DataDAO(this);
         datasource.open();
 
-        List<Data> values = null;
+        values = null;
+        String string = "string";
+
 
         switch(mode){
-            case "texts":
-                values = datasource.getAllContents(MySQLiteHelper.TABLE_TEXTS);
+            case MySQLiteHelper.TABLE_TEXTS:
+                values = datasource.getAllContents(mode);
                 break;
-            case "croquis":
-                values = datasource.getAllContents(MySQLiteHelper.TABLE_CROQUIS);
+            case MySQLiteHelper.TABLE_CROQUIS:
+                values = datasource.getAllContents(mode);
                 break;
-            case "voix":
-                values = datasource.getAllContents(MySQLiteHelper.TABLE_VOIX);
+            case MySQLiteHelper.TABLE_VOIX:
+                values = datasource.getAllContents(mode);
                 break;
-            case "photos":
-                values = datasource.getAllContents(MySQLiteHelper.TABLE_PHOTOS);
+            case MySQLiteHelper.TABLE_PHOTOS:
+                values = datasource.getAllContents(mode);
                 break;
-            case "videos":
-                values = datasource.getAllContents(MySQLiteHelper.TABLE_VIDEOS);
+            case MySQLiteHelper.TABLE_VIDEOS:
+                values = datasource.getAllContents(mode);
                 break;
         }
 
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ArrayAdapter<Data> adapter = new ArrayAdapter<Data>(this,
+        adapter = new ArrayAdapter<Data>(this,
                 android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 
+        ListView lv = (ListView) findViewById(android.R.id.list);
+        registerForContextMenu(lv);
     }
 
     @Override
@@ -70,26 +90,44 @@ public class DataViewActivity  extends ListActivity {
         datasource.close();
         super.onPause();
     }
-}
-
-/*public class UsersAdapter extends ArrayAdapter<Data> {
-    public UsersAdapter(Context context, ArrayList<Data> users) {
-        super(context, 0, users);
-    }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        Data data = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.data_view_layout, parent, false);
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == android.R.id.list) {
+            ListView lv = (ListView) v;
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            dataSelected = (Data) lv.getItemAtPosition(acmi.position);
+
+            menu.add(GROUP_DEFAULT, ID_OUVRIR, 0, "Ouvrir");
+            menu.add(GROUP_DEFAULT, ID_SUPPR, 0, "Supprimer");
         }
-        // Lookup view for data population
-        TextView tvName = (TextView) convertView.findViewById(R.id.name);
-        // Populate the data into the template view using the data object
-        tvName.setText(data.getName());
-        // Return the completed view to render on screen
-        return convertView;
     }
-}*/
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case ID_OUVRIR:
+                //Implémenter l'ouverture ici, en fonction de la variable "mode"
+                return true;
+            case ID_SUPPR:
+                AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+                newDialog.setTitle("Supprimer Note");
+                newDialog.setMessage("Voulez-vous supprimer cette note?");
+                newDialog.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        values.remove(dataSelected);
+                        datasource.deleteElement(dataSelected, mode);
+                        adapter.remove(dataSelected);
+                        setListAdapter(adapter);
+                        Toast.makeText(getApplicationContext(), "Note supprimée", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                newDialog.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                newDialog.show();
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+}
