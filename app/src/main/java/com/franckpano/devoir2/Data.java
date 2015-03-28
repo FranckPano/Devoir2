@@ -1,9 +1,11 @@
 package com.franckpano.devoir2;
 
+import java.io.Serializable;
+
 /**
  * Created by Franck on 26/03/2015.
  */
-public class Data {
+public class Data implements Serializable{
     private long id;
     private String name;
 

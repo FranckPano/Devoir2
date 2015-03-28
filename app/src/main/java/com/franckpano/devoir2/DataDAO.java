@@ -62,11 +62,32 @@ public class DataDAO {
         return newComment;
     }
 
-    public void deleteElement(Data comment, String nameTable) {
-        long id = comment.getId();
-        System.out.println("Comment deleted with id: " + id);
+    public void deleteElement(Data element, String nameTable) {
+        long id = element.getId();
+        System.out.println("Element deleted with id: " + id);
         database.delete(nameTable, MySQLiteHelper.COLUMN_ID
                 + " = " + id, null);
+    }
+
+    public void updateElement(Data element,String nameTable){
+        long id = element.getId();
+        ContentValues values = new ContentValues();
+        switch(nameTable){
+            case MySQLiteHelper.TABLE_TEXTS:
+                values.put(MySQLiteHelper.COLUMN_CONTENT, ((DataText)element).getData());
+                break;
+            case MySQLiteHelper.TABLE_CROQUIS:
+                values.put(MySQLiteHelper.COLUMN_CONTENT, ((DataPicture)element).getData());
+                break;
+            case MySQLiteHelper.TABLE_VOIX:
+                break;
+            case MySQLiteHelper.TABLE_PHOTOS:
+                values.put(MySQLiteHelper.COLUMN_CONTENT, ((DataPicture)element).getData());
+                break;
+            case MySQLiteHelper.TABLE_VIDEOS:
+                break;
+        }
+        database.update(nameTable, values, MySQLiteHelper.COLUMN_ID + " = " + id,null);
     }
 
     public List<Data> getAllContents(String nameTable) {

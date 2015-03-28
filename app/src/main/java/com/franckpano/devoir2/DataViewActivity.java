@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -15,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +47,19 @@ public class DataViewActivity  extends ListActivity {
         values = null;
         String string = "string";
 
+        recupererDatas();
+
+        // use the SimpleCursorAdapter to show the
+        // elements in a ListView
+        adapter = new ArrayAdapter<Data>(this,
+                android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
+
+        ListView lv = (ListView) findViewById(android.R.id.list);
+        registerForContextMenu(lv);
+    }
+
+    public void recupererDatas(){
         switch(mode){
             case MySQLiteHelper.TABLE_TEXTS:
                 values = datasource.getAllContents(mode);
@@ -67,20 +77,15 @@ public class DataViewActivity  extends ListActivity {
                 values = datasource.getAllContents(mode);
                 break;
         }
-
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
-        adapter = new ArrayAdapter<Data>(this,
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
-
-        ListView lv = (ListView) findViewById(android.R.id.list);
-        registerForContextMenu(lv);
     }
 
     @Override
     protected void onResume() {
         datasource.open();
+        recupererDatas();
+        adapter = new ArrayAdapter<Data>(this,
+                android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
         super.onResume();
     }
 
@@ -134,7 +139,9 @@ public class DataViewActivity  extends ListActivity {
         Intent nextActivity;
             switch(mode){
                 case MySQLiteHelper.TABLE_TEXTS:
-                    Toast.makeText(getApplicationContext(), "Pas encore possible", Toast.LENGTH_SHORT).show();
+                    nextActivity = new Intent( this, WriteActivity.class );
+                    nextActivity.putExtra(DATA, dataSelected);
+                    startActivityForResult(nextActivity, 0);
                     break;
                 case MySQLiteHelper.TABLE_CROQUIS:
                     nextActivity = new Intent( this, ImageViewActivity.class );

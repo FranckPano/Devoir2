@@ -4,14 +4,10 @@ package com.franckpano.devoir2;
  * Created by Franck on 26/03/2015.
  */
 
-import java.util.List;
-import java.util.Random;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 
 public class ViewActivity extends Activity {
 
