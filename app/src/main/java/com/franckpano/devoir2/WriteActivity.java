@@ -22,6 +22,7 @@ public class WriteActivity extends Activity {
     private DataDAO datasource;
     DataText dataInput;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,6 @@ public class WriteActivity extends Activity {
             final EditText text = (EditText) findViewById(R.id.texte);
             text.setText(dataInput.getData());
         }
-
 
         datasource = new DataDAO(this);
         datasource.open();

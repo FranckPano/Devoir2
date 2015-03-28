@@ -11,13 +11,21 @@
         android:layout_height="wrap_content"
         android:text="Enregistrer"
         android:onClick="onRecord"/>
-    <Button
 
+    <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lecture"
+        android:text="Lire"
         android:onClick="onPlay"/>
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sauvegarder"
+        android:onClick="enregistrer"/>
+
 
 
 </LinearLayout>

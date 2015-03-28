@@ -1,53 +1,71 @@
 package com.franckpano.devoir2;
 
-
 import android.app.Activity;
-import android.widget.LinearLayout;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.content.Context;
+import android.widget.Button;
 import android.util.Log;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class SpeakActivity extends Activity
 {
     private static final String LOG_TAG = "AudioRecordTest";
-    private static String mFileName = null;
+    private static String fileName = null;
 
-    private RecordButton mRecordButton = null;
     private MediaRecorder mRecorder = null;
-
-    private PlayButton   mPlayButton = null;
     private MediaPlayer   mPlayer = null;
 
-    private void onRecord(boolean start) {
-        if (start) {
-            startRecording();
-        } else {
-            stopRecording();
-        }
-    }
+    Button recordButton = null;
+    Button playButton = null;
 
-    private void onPlay(boolean start) {
-        if (start) {
-            startPlaying();
-        } else {
-            stopPlaying();
+    private DataDAO datasource;
+
+    DataText dataInput;
+
+    private boolean recording, playing;
+
+    @Override
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        setContentView(R.layout.speak_layout);
+        recording = false;
+        playing = false;
+
+        final Intent intent = getIntent();
+        dataInput = (DataText)intent.getSerializableExtra(DataViewActivity.DATA);
+        if(dataInput == null){
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+            fileName += "/audiorecord" + timeStamp +".3gp";
         }
+        else{
+            fileName = dataInput.getData();
+        }
+
+        recordButton = (Button) findViewById(R.id.recordButton);
+        playButton = (Button) findViewById(R.id.playButton);
+
+        datasource = new DataDAO(this);
+        datasource.open();
     }
 
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(mFileName);
+            mPlayer.setDataSource(fileName);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
@@ -64,7 +82,7 @@ public class SpeakActivity extends Activity
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
+        mRecorder.setOutputFile(fileName);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -82,73 +100,25 @@ public class SpeakActivity extends Activity
         mRecorder = null;
     }
 
-    class RecordButton extends Button {
-        boolean mStartRecording = true;
-
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                onRecord(mStartRecording);
-                if (mStartRecording) {
-                    setText("Stop recording");
-                } else {
-                    setText("Start recording");
-                }
-                mStartRecording = !mStartRecording;
+    public void onRecord(View clickedButton){
+            if (!recording) {
+                startRecording();
+                ((Button)clickedButton).setText("Arret");
+            } else {
+                stopRecording();
+                ((Button)clickedButton).setText("Enregistrer");
             }
-        };
-
-        public RecordButton(Context ctx) {
-            super(ctx);
-            setText("Start recording");
-            setOnClickListener(clicker);
+            recording = !recording;
+    }
+    public void onPlay(View clickedButton){
+        if (!playing) {
+            startPlaying();
+            ((Button)clickedButton).setText("Stop");
+        } else {
+            stopPlaying();
+            ((Button)clickedButton).setText("Lire");
         }
-    }
-
-    class PlayButton extends Button {
-        boolean mStartPlaying = true;
-
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                onPlay(mStartPlaying);
-                if (mStartPlaying) {
-                    setText("Stop playing");
-                } else {
-                    setText("Start playing");
-                }
-                mStartPlaying = !mStartPlaying;
-            }
-        };
-
-        public PlayButton(Context ctx) {
-            super(ctx);
-            setText("Start playing");
-            setOnClickListener(clicker);
-        }
-    }
-
-    public void AudioRecordTest() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
-    }
-
-    @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-
-        LinearLayout ll = new LinearLayout(this);
-        mRecordButton = new RecordButton(this);
-        ll.addView(mRecordButton,
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        0));
-        mPlayButton = new PlayButton(this);
-        ll.addView(mPlayButton,
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        0));
-        setContentView(ll);
+        playing = !playing;
     }
 
     @Override
@@ -163,5 +133,37 @@ public class SpeakActivity extends Activity
             mPlayer.release();
             mPlayer = null;
         }
+    }
+
+    public void enregistrer(View clickedButton){
+
+        if(dataInput == null) {
+            LayoutInflater factory = LayoutInflater.from(this);
+            final View alertDialogView = factory.inflate(R.layout.save_layout, null);
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setView(alertDialogView);
+            adb.setTitle("Sauvegarde de la note");
+            adb.setIcon(android.R.drawable.ic_dialog_alert);
+            adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    final EditText et = (EditText) alertDialogView.findViewById(R.id.EditText1);
+                    Data data = datasource.createData(fileName, et.getText().toString(), MySQLiteHelper.TABLE_VOIX);
+                    Toast.makeText(getApplicationContext(), "Text Note Saved!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            adb.show();
+        }
+        else{
+            dataInput.setData(fileName);
+            datasource.updateElement(dataInput,MySQLiteHelper.TABLE_VOIX);
+            Toast.makeText(getApplicationContext(),"Text Note Saved!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

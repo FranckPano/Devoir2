@@ -149,7 +149,9 @@ public class DataViewActivity  extends ListActivity {
                     startActivityForResult(nextActivity, 0);
                     break;
                 case MySQLiteHelper.TABLE_VOIX:
-                    Toast.makeText(getApplicationContext(), "Pas encore possible", Toast.LENGTH_SHORT).show();
+                    nextActivity = new Intent( this, SpeakActivity.class );
+                    nextActivity.putExtra(DATA, dataSelected);
+                    startActivityForResult(nextActivity, 0);
                     break;
                 case MySQLiteHelper.TABLE_PHOTOS:
                     nextActivity = new Intent( this, ImageViewActivity.class );
