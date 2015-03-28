@@ -54,7 +54,6 @@ public class PhotoActivity extends Activity {
         // start the image capture Intent
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
-
         //Création et ouverture de la base de données, via la DAO
         datasource = new DataDAO(this);
         datasource.open();
