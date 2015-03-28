@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 
 public class ViewActivity extends Activity {
 
-    public final static String EXTRA_MESSAGE = "com.ltm.ltmactionbar.MESSAGE";
+    public final static String MODE = "mode";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class ViewActivity extends Activity {
 
     private void goToDataView(String dataType) {
         Intent newActivity = new Intent( this, DataViewActivity.class );
-        newActivity.putExtra(EXTRA_MESSAGE, dataType);
+        newActivity.putExtra(MODE, dataType);
         startActivityForResult(newActivity, 0);
     }
 

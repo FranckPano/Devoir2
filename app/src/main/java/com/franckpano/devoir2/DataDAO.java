@@ -19,19 +19,6 @@ public class DataDAO {
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_CONTENT, MySQLiteHelper.COLUMN_NAME };
-/*
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_TEXT };
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_CROQUIS };
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_VOIX };
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_PHOTO };
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_VIDEO};*/
-
-
 
     public DataDAO(Context context) {
         dbHelper = new MySQLiteHelper(context);

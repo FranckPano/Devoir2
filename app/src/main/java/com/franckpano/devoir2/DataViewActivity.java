@@ -2,19 +2,17 @@ package com.franckpano.devoir2;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +28,8 @@ public class DataViewActivity  extends ListActivity {
     private final int ID_OUVRIR = 0, ID_SUPPR = 1;
     private final int GROUP_DEFAULT = 0;
 
+    public final static String DATA = "data";
+
     private Data dataSelected;
     private String mode;
 
@@ -42,14 +42,13 @@ public class DataViewActivity  extends ListActivity {
         setContentView(R.layout.data_view_layout);
 
         final Intent intent = getIntent();
-        mode = intent.getStringExtra(ViewActivity.EXTRA_MESSAGE);
+        mode = intent.getStringExtra(ViewActivity.MODE);
 
         datasource = new DataDAO(this);
         datasource.open();
 
         values = null;
         String string = "string";
-
 
         switch(mode){
             case MySQLiteHelper.TABLE_TEXTS:
@@ -105,7 +104,7 @@ public class DataViewActivity  extends ListActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case ID_OUVRIR:
-                //Implémenter l'ouverture ici, en fonction de la variable "mode"
+                ouvrirSelected();
                 return true;
             case ID_SUPPR:
                 AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
@@ -129,5 +128,30 @@ public class DataViewActivity  extends ListActivity {
                 return true;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void ouvrirSelected(){
+        Intent nextActivity;
+            switch(mode){
+                case MySQLiteHelper.TABLE_TEXTS:
+                    Toast.makeText(getApplicationContext(), "Pas encore possible", Toast.LENGTH_SHORT).show();
+                    break;
+                case MySQLiteHelper.TABLE_CROQUIS:
+                    nextActivity = new Intent( this, ImageViewActivity.class );
+                    nextActivity.putExtra(DATA, ((DataPicture)dataSelected).getData());
+                    startActivityForResult(nextActivity, 0);
+                    break;
+                case MySQLiteHelper.TABLE_VOIX:
+                    Toast.makeText(getApplicationContext(), "Pas encore possible", Toast.LENGTH_SHORT).show();
+                    break;
+                case MySQLiteHelper.TABLE_PHOTOS:
+                    nextActivity = new Intent( this, ImageViewActivity.class );
+                    nextActivity.putExtra(DATA, ((DataPicture)dataSelected).getData());
+                    startActivityForResult(nextActivity, 0);
+                    break;
+                case MySQLiteHelper.TABLE_VIDEOS:
+                    Toast.makeText(getApplicationContext(), "Pas encore possible", Toast.LENGTH_SHORT).show();
+                    break;
+            }
     }
 }
