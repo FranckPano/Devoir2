@@ -60,23 +60,7 @@ public class DataViewActivity  extends ListActivity {
     }
 
     public void recupererDatas(){
-        switch(mode){
-            case MySQLiteHelper.TABLE_TEXTS:
-                values = datasource.getAllContents(mode);
-                break;
-            case MySQLiteHelper.TABLE_CROQUIS:
-                values = datasource.getAllContents(mode);
-                break;
-            case MySQLiteHelper.TABLE_VOIX:
-                values = datasource.getAllContents(mode);
-                break;
-            case MySQLiteHelper.TABLE_PHOTOS:
-                values = datasource.getAllContents(mode);
-                break;
-            case MySQLiteHelper.TABLE_VIDEOS:
-                values = datasource.getAllContents(mode);
-                break;
-        }
+        values = datasource.getAllContents(mode);
     }
 
     @Override

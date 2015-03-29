@@ -82,9 +82,7 @@ public class PhotoActivity extends Activity {
                         Toast savedText = Toast.makeText(getApplicationContext(),
                                 "Picture Saved!", Toast.LENGTH_SHORT);
                         savedText.show();
-
                     } });
-
                 adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         finish();

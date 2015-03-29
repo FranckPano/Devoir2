@@ -6,32 +6,32 @@
 
     <Button
         android:id="@+id/texts"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Notes Textes"
         android:onClick="onClick"/>
 
     <Button
         android:id="@+id/croquis"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Croquis"
         android:onClick="onClick"/>
     <Button
         android:id="@+id/voix"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Notes Vocales"
         android:onClick="onClick"/>
     <Button
         android:id="@+id/photos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Notes Photos"
         android:onClick="onClick"/>
     <Button
         android:id="@+id/videos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Notes Vidéos"
         android:onClick="onClick"/>

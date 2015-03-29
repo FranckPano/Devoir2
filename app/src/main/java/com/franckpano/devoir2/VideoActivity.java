@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -59,7 +60,7 @@ public class VideoActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         final EditText et = (EditText)alertDialogView.findViewById(R.id.EditText1);
-                        String uriVideo = data.getData().getPath();
+                        String uriVideo = data.getData().toString();
 
                         Data data = datasource.createData(uriVideo, et.getText().toString() ,MySQLiteHelper.TABLE_VIDEOS);
                         Toast savedText = Toast.makeText(getApplicationContext(),
