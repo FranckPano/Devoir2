@@ -31,55 +31,12 @@ public class VideoViewActivity extends Activity {
         final Intent intent = getIntent();
         uri = (DataText)intent.getSerializableExtra(DataViewActivity.DATA);
 
-
-
-        /*File source = new File(URI.create(uri.getData()));
-        String pathDest = "android.resource://" + getPackageName() + "/" + uri.getName();
-        File dest = new File (pathDest);
-        copyFile(source, dest);*/
-
-        //String toParse = .substring(0, uri.getData().length()-4);
-        //videoview.setVideoURI(Uri.fromFile(dest));
-        //videoview.setVideoPath(uri.getData());
-
         videoview.setVideoURI(Uri.parse(uri.getData()));
         MediaController mc = new MediaController(getApplicationContext());
         mc.setMediaPlayer(videoview);
         videoview.setMediaController(mc);
         //videoview.requestFocus();
         videoview.start();
-    }
-
-
-    /** copie le fichier source dans le fichier resultat
-     * retourne vrai si cela réussit
-     */
-    public static boolean copyFile(File source, File dest){
-        try{
-            // Declaration et ouverture des flux
-            java.io.FileInputStream sourceFile = new java.io.FileInputStream(source);
-
-            try{
-                java.io.FileOutputStream destinationFile = null;
-                try{
-                    destinationFile = new FileOutputStream(dest);
-                    // Lecture par segment de 0.5Mo
-                    byte buffer[] = new byte[512 * 1024];
-                    int nbLecture;
-                    while ((nbLecture = sourceFile.read(buffer)) != -1){
-                        destinationFile.write(buffer, 0, nbLecture);
-                    }
-                } finally {
-                    destinationFile.close();
-                }
-            } finally {
-                sourceFile.close();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-            return false; // Erreur
-        }
-        return true; // Résultat OK
     }
 
 }
