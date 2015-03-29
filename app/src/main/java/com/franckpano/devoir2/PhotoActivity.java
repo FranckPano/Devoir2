@@ -80,7 +80,7 @@ public class PhotoActivity extends Activity {
 
                         Data data = datasource.createCroquisData(byteArray, et.getText().toString() ,MySQLiteHelper.TABLE_PHOTOS);
                         Toast savedText = Toast.makeText(getApplicationContext(),
-                                "Draw Note Saved!", Toast.LENGTH_SHORT);
+                                "Picture Saved!", Toast.LENGTH_SHORT);
                         savedText.show();
 
                     } });

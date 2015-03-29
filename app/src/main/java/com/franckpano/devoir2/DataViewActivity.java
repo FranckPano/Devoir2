@@ -159,7 +159,9 @@ public class DataViewActivity  extends ListActivity {
                     startActivityForResult(nextActivity, 0);
                     break;
                 case MySQLiteHelper.TABLE_VIDEOS:
-                    Toast.makeText(getApplicationContext(), "Pas encore possible", Toast.LENGTH_SHORT).show();
+                    nextActivity = new Intent( this, VideoViewActivity.class );
+                    nextActivity.putExtra(DATA, dataSelected);
+                    startActivityForResult(nextActivity, 0);
                     break;
             }
     }
