@@ -4,15 +4,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.util.Log;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Franck on 23/03/2015.
@@ -22,6 +27,7 @@ public class WriteActivity extends Activity {
     private DataDAO datasource;
     DataText dataInput;
 
+    private static final int REQUEST_CODE = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,44 @@ public class WriteActivity extends Activity {
             final EditText text = (EditText) findViewById(R.id.texte);
             text.setText(dataInput.getData());
         }
-
         datasource = new DataDAO(this);
         datasource.open();
+
+        Button speakButton = (Button) findViewById(R.id.speakButton);
+        // Disable button if no recognition service is present
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() == 0)
+        {
+            speakButton.setEnabled(false);
+            speakButton.setText("Reconnaissance vocale introuvable");
+        }
+    }
+
+    private void startVoiceRecognitionActivity()
+    {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Voice recognition ...");
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+    /**
+     * Handle the results from the voice recognition activity.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            // Populate the wordsList with the String values the recognition engine thought it heard
+            ArrayList<String> matches = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            final EditText text = (EditText) findViewById(R.id.texte);
+            text.setText(text.getText() + " " + matches.get(0));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Will be called via the onClick attribute
@@ -65,11 +106,14 @@ public class WriteActivity extends Activity {
                 });
                 newDialog.show();
                 break;
+            case R.id.speakButton:
+                startVoiceRecognitionActivity();
+                break;
         }
     }
 
     @Override
-    protected void onPause() {
+    protected void onStop() {
         if(dataInput!=null){
             enregistrer();
         }
@@ -80,7 +124,7 @@ public class WriteActivity extends Activity {
             Data data = datasource.createData(text.getText().toString(), NoteFileName, MySQLiteHelper.TABLE_TEXTS);
         }
        Toast.makeText(getApplicationContext(),"Text Note Saved!", Toast.LENGTH_SHORT).show();
-        super.onPause();
+        super.onStop();
     }
 
     public void enregistrer(){

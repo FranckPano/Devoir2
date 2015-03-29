@@ -34,6 +34,11 @@
             android:layout_height="wrap_content"
             android:text="Vider"
             android:onClick="onClick"/>
+        <Button android:id="@+id/speakButton"
+            android:layout_width="fill_parent"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"
+            android:text="Dicter" />
 
     </LinearLayout>
 </LinearLayout>
