@@ -1,39 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <Button
-        android:id="@+id/texts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notes Textes"
-        android:onClick="onClick"/>
+    <!-- LIGNE 1 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/croquis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Croquis"
-        android:onClick="onClick"/>
-    <Button
-        android:id="@+id/voix"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notes Vocales"
-        android:onClick="onClick"/>
-    <Button
-        android:id="@+id/photos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notes Photos"
-        android:onClick="onClick"/>
-    <Button
-        android:id="@+id/videos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notes Vidéos"
-        android:onClick="onClick"/>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
 
+            <Button
+                android:id="@+id/texts"
+                android:text="Notes Textes"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawableLeft="@drawable/documents7"
+                android:onClick="onClick"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/croquis"
+                android:text="Notes croquis"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawableLeft="@drawable/drum21"
+                android:onClick="onClick"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- LIGNE 2 -->
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/photos"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Notes photos"
+                android:drawableLeft="@drawable/stack21"
+                android:onClick="onClick"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/videos"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Notes vidéos"
+                android:drawableLeft="@drawable/video189"
+                android:onClick="onClick"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- LIGNE 3 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/voix"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Notes vocales"
+                android:drawableLeft="@drawable/man282"
+                android:onClick="onClick"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1">
+
+        </RelativeLayout>
+
+    </LinearLayout>
 </LinearLayout>
